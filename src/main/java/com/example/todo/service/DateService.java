@@ -26,7 +26,7 @@ public class DateService {
             if (dateString.equals(parsedDateString)) {
                 log.info("The string has the format yyyy-MM-dd");
                 todoService.createTodo(todoDto.getTitle(),todoService.convertStringToDate(todoDto.getDate()));
-                return new ResponseEntity<>("Todo created", HttpStatus.OK);
+                return new ResponseEntity<>("Todo created", HttpStatus.CREATED);
             } else {
                 log.error(todoDto.getDate());
                 log.error("The string does not have the format yyyy-MM-dd");
