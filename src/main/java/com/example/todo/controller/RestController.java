@@ -25,26 +25,26 @@ public class RestController {
     private final DateService dateService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createTodo(@RequestBody TodoDto todoDto){
+    public ResponseEntity<String> createTodo(@RequestBody TodoDto todoDto) {
         return dateService.validateAndCreateTodo(todoDto);
     }
 
     @GetMapping("/allTodos")
-    public ResponseEntity<List<Todo>> getAllTodos(){
-    return new ResponseEntity<>(todoService.getAllTodos(), HttpStatus.OK);
+    public ResponseEntity<List<Todo>> getAllTodos() {
+        return new ResponseEntity<>(todoService.getAllTodos(), HttpStatus.OK);
     }
 
     @PutMapping("/change")
-    public ResponseEntity update(@RequestParam String id){
-       todoService.changeStatus(Long.valueOf(id));
-        return new ResponseEntity<>("status changed",HttpStatus.OK);
+    public ResponseEntity<String> update(@RequestParam String id) {
+        todoService.changeStatus(Long.valueOf(id));
+        return new ResponseEntity<>("status changed", HttpStatus.OK);
     }
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestParam String id){
+    public ResponseEntity<String> delete(@RequestParam String id) {
         todoService.deletedTodo(Long.valueOf(id));
-        return new ResponseEntity<>("deleted",HttpStatus.OK);
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
 
