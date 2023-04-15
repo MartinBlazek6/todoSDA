@@ -33,6 +33,10 @@ public class RestController {
     public ResponseEntity<List<Todo>> getAllTodos() {
         return new ResponseEntity<>(todoService.getAllTodos(), HttpStatus.OK);
     }
+    @GetMapping("/getByStatus")
+    public ResponseEntity<List<Todo>> getAllByStatus(@RequestParam Boolean status){
+        return new ResponseEntity<>(todoService.getAllByStatus(status),HttpStatus.OK);
+    }
 
     @PutMapping("/change")
     public ResponseEntity<String> update(@RequestParam String id) {
