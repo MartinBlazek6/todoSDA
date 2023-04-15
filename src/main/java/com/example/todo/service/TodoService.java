@@ -38,7 +38,7 @@ public class TodoService {
     public void changeStatus(Long id){
         Todo todo = todoRepository.findById(id).get();
         todo.setIsDone(!todo.getIsDone());
-        todoRepository.saveAndFlush(todo);
+        todoRepository.save(todo);
     }
 
 
