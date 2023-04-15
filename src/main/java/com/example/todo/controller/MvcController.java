@@ -35,19 +35,7 @@ public class MvcController {
 
     @PostMapping("/createTodo")
     public String createTodo(@RequestParam String title, String date){
-
-        String dateString = date;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date2 = null;
-        try {
-            date2 = dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println(date);
-
-
-        todoService.createTodo(title,date2);
+        todoService.createTodo(title,todoService.convertStringToDate(date));
         return "redirect:/";
     }
 
