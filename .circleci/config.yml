@@ -1,0 +1,36 @@
+version: 2.1
+
+jobs:
+  say-hello:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+
+  compile-project:
+    docker:
+      - image: maven:3.8.4
+    steps:
+      - checkout
+      - run:
+          name: "Compile project"
+          command: "mvn compile"
+
+  tests:
+    docker:
+      - image: maven:3.8.4
+    steps:
+      - checkout
+      - run:
+          name: "Run tests"
+          command: "mvn test"
+
+workflows:
+  say-hello-workflow:
+    jobs:
+      - say-hello
+      - compile-project
+      - tests
