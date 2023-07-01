@@ -37,7 +37,7 @@ public class RestController {
         return new ResponseEntity<>(todoService.getAllByStatus(status),HttpStatus.OK);
     }
 
-    @PutMapping("/change")
+    @PatchMapping("/change")
     public ResponseEntity<String> update(@RequestParam String id) {
         todoService.changeStatus(Long.valueOf(id));
         return new ResponseEntity<>("status changed", HttpStatus.OK);
