@@ -60,6 +60,12 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            border: none; 
+            padding: 5px 10px;
+        }
 
         button[type="submit"]:hover {
             background-color: #3e8e41;
@@ -92,7 +98,7 @@
                     <button type="submit">Change Status</button>
                 </form>
                 <form th:action="@{/deleteTodo/{id}(id=${todo.id})}" method="post">
-                    <button type="submit">Delete</button>
+                    <button class="btn-danger" type="submit">Delete</button>
                 </form>
             </td>
         </tr>
