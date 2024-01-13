@@ -21,7 +21,7 @@ class DateServiceTest {
     @Mock
     private TodoRepository todoRepository;
     @Test
-    void validateAndCreateTodo() throws ParseException {
+    void validateAndCreateTodo() {
         //Given
         TodoDto todoDto = new TodoDto();
         todoDto.setTitle("tets");
@@ -37,8 +37,8 @@ class DateServiceTest {
 //        Exception exception =
 
 //        assertThrows(Exception.class, () -> dateService.validateAndCreateTodo(todoDto));
-//        assertThrows(NumberFormatException.class, () -> dateService.validateAndCreateTodo(todoDto));
-        assertThrows(NullPointerException.class, () -> dateService.validateAndCreateTodo(todoDto));
+        assertThrows(NumberFormatException.class, () -> dateService.validateAndCreateTodo(todoDto));
+//        assertThrows(NullPointerException.class, () -> dateService.validateAndCreateTodo(todoDto));
 
 
     }
