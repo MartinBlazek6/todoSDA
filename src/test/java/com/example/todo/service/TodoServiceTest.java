@@ -2,7 +2,8 @@ package com.example.todo.service;
 
 import com.example.todo.model.Todo;
 import com.example.todo.repository.TodoRepository;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class) // Tu vravim ze classa bude pouzivat Mockito framework
+@Slf4j
 class TodoServiceTest {
 
     @InjectMocks // tato anotacia mi pomoze namokovat servic, akykolvek
@@ -24,6 +26,65 @@ class TodoServiceTest {
 
     @Mock // tato anotacia mi pomoze namokovat repozitar(databaza), akykolvek
     private TodoRepository todoRepository;
+
+    private static List<Todo> todoRepository2;
+    private static  Todo doneTodo1;
+    private static  Todo doneTodo2;
+    private static  Todo notDoneTodo;
+    private static  Todo pokazene;
+
+    private static Long ID;
+    private static  Long IDsPetrom;
+    private static  Todo noveTodo;
+    private static  Todo todoSPetrom;
+
+
+//    Long ID = 7L;
+//    Long IDsPetrom = 6L;
+//    Todo noveTodo = new Todo("nove todo", new Date());
+//    Todo todoSPetrom = new Todo("nove todo", new Date());
+//        todoSPetrom.setIsDone(true);
+
+
+    @BeforeAll
+    static void setUp() {
+        ID = 7L;
+         IDsPetrom = 6L;
+         noveTodo = new Todo("nove todo", new Date());
+         todoSPetrom = new Todo("nove todo", new Date());
+        todoSPetrom.setIsDone(true);
+
+        doneTodo1 = new Todo("Done Todo 1", new Date());
+        doneTodo1.setIsDone(true);
+
+         doneTodo2 = new Todo("Done Todo 2", new Date());
+        doneTodo2.setIsDone(true);
+
+         notDoneTodo = new Todo("Not Done Todo", new Date());
+
+         pokazene = new Todo("pokazene", new Date());
+
+        todoRepository2 = Arrays.asList(doneTodo1, doneTodo2, notDoneTodo, pokazene);
+        log.warn("Vsetky testy prave zacali");
+
+    }
+
+    @BeforeEach
+    void beforeEachSetUp(){
+        log.info("prave zacal test");
+    }
+
+    @AfterEach
+    void afterEachSetUp(){
+        log.info("prave skoncil test");
+    }
+
+    @AfterAll
+     static void afterAllSetUp(){
+        log.warn("Vsetky testy skoncili");
+    }
+
+
 
     @Test
     void testChangeStatus() {
@@ -56,25 +117,16 @@ class TodoServiceTest {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     @Test
     void testChangeStatusSpolu(){
-        //given
-        Long ID = 7L;
-        Long IDsPetrom = 6L;
-        Todo noveTodo = new Todo("nove todo", new Date());
-        Todo todoSPetrom = new Todo("nove todo", new Date());
-        todoSPetrom.setIsDone(true);
+//        given
+//        Long ID = 7L;
+//        Long IDsPetrom = 6L;
+//        Todo noveTodo = new Todo("nove todo", new Date());
+//        Todo todoSPetrom = new Todo("nove todo", new Date());
+//        todoSPetrom.setIsDone(true);
+
+        // zakomentovany kod vyssie moze byt vymazany lebo uz sa o to stara beforeAll
 
         //when
         when(todoRepository.findById(ID)).thenReturn(Optional.of(noveTodo));
@@ -106,33 +158,27 @@ class TodoServiceTest {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
     @Test
     void testGetAllDoneTodos() {
 
-        Todo doneTodo1 = new Todo("Done Todo 1", new Date());
-        doneTodo1.setIsDone(true);
+//        Todo doneTodo1 = new Todo("Done Todo 1", new Date());
+//        doneTodo1.setIsDone(true);
+//
+//        Todo doneTodo2 = new Todo("Done Todo 2", new Date());
+//        doneTodo2.setIsDone(true);
+//
+//        Todo notDoneTodo = new Todo("Not Done Todo",new Date());
+//
+//        Todo pokazene = new Todo("pokazene",new Date());
 
-        Todo doneTodo2 = new Todo("Done Todo 2", new Date());
-        doneTodo2.setIsDone(true);
-
-        Todo notDoneTodo = new Todo("Not Done Todo",new Date());
-
-        Todo pokazene = new Todo("pokazene",new Date());
-
-        List<Todo> todoRepository = Arrays.asList(doneTodo1, doneTodo2,notDoneTodo,pokazene);
-        List<Todo> doneTodos2 = new java.util.ArrayList<>(todoRepository.stream().filter(Todo::getIsDone).toList());
+//        List<Todo> todoRepository = Arrays.asList(doneTodo1, doneTodo2,notDoneTodo,pokazene);
 //        List<Todo> doneTodos2 = todoRepository.stream().filter(todo -> todo.getIsDone()).toList();
+
+        // vdaka beforeAll zakomentovany kod hore moze byt vymazany
+
+
+
+        List<Todo> doneTodos2 = new java.util.ArrayList<>(todoRepository2.stream().filter(Todo::getIsDone).toList());
 
         when // ked
                 (this.todoRepository.findAllByIsDone(true)). // zavolam metodu najdi todo podla statusu, ktory je  true
