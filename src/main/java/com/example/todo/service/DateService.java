@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,9 +17,11 @@ import java.util.Date;
 public class DateService {
     private final TodoService todoService;
 
-    public ResponseEntity<String> validateAndCreateTodo(TodoDto todoDto){
+    public ResponseEntity<String> validateAndCreateTodo(TodoDto todoDto) throws ParseException {
         String dateString = todoDto.getDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                                                            // 2010-01-01
+                                                            // 01-01-2010
 
         try {
             Date date = format.parse(dateString);
@@ -34,6 +37,7 @@ public class DateService {
         } catch (Exception e) {
             log.error(todoDto.getDate());
             log.error("The string does not have the format yyyy-MM-dd");
+            throw new NumberFormatException("zly format");
         }
 
         return new ResponseEntity<>("The string does not have the format yyyy-MM-dd",HttpStatus.BAD_REQUEST);
