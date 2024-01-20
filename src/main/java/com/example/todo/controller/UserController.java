@@ -23,6 +23,9 @@ public class UserController {
     @GetMapping("/login")
     public String loginPage() {
         return "login";
+    }    @GetMapping("/sw.js")
+    public String loginPagea() {
+        return "redirect:/";
     }
 
 
