@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
@@ -24,7 +25,7 @@ public class RestController {
     private final DateService dateService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createTodo(@RequestBody TodoDto todoDto) {
+    public ResponseEntity<String> createTodo(@RequestBody TodoDto todoDto) throws ParseException {
         return dateService.validateAndCreateTodo(todoDto);
     }
 
@@ -37,7 +38,7 @@ public class RestController {
         return new ResponseEntity<>(todoService.getAllByStatus(status),HttpStatus.OK);
     }
 
-    @PutMapping("/change")
+    @PatchMapping("/change")
     public ResponseEntity<String> update(@RequestParam String id) {
         todoService.changeStatus(Long.valueOf(id));
         return new ResponseEntity<>("status changed", HttpStatus.OK);
