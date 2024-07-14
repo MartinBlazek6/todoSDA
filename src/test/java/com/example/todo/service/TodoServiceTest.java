@@ -111,7 +111,9 @@ class TodoServiceTest {
         // za pomoci verify zistujem kolko krat som volal do DB za pomoci ulozania (save)
 
 
-        assertTrue(todo.getIsDone()== true);
+        assertTrue(todo.getIsDone() == true);
+
+        org.assertj.core.api.Assertions.assertThat(todo.getIsDone()).isTrue();
         //tu zistujem ci sa po metode changeStatus zmenilo todo z false na true
     }
 
@@ -141,19 +143,25 @@ class TodoServiceTest {
         assertFalse(todoRepository.findById(IDsPetrom).orElseThrow().getIsDone());
 //        assertFalse(todoRepository.findById(ID).orElseThrow().getIsDone() == false);
 
-        verify( //over mi prosim ta
-                todoRepository,// ze tendo repozitar/ tato namokovana databaza
-                times(2)) // bola zavolana dva krat
-                .findById(ID); // a to s metodou find by id
+//        verify( //over mi prosim ta
+//                todoRepository,// ze tendo repozitar/ tato namokovana databaza
+//                times(2)) // bola zavolana dva krat
+//                .findById(ID); // a to s metodou find by id
+//
+//        verify(todoRepository,times(2)).findById(IDsPetrom);
+        verify(todoRepository,times(4)).findById(anyLong());
+        verify(todoRepository, never()).delete(any());
+        verify(todoRepository, never()).deleteAll(any());
+        verify(todoRepository, never()).findAll();
+        verify(todoRepository, never()).findAllByIsDone(any());
 
-        verify(todoRepository,times(2)).findById(IDsPetrom);
-
-        verify(
-                todoRepository,
-                times(1)
-        ).save(noveTodo);
-
-        verify(todoRepository,times(1)).save(todoSPetrom);
+//        verify(
+//                todoRepository,
+//                times(1)
+//        ).save(noveTodo);
+//
+//        verify(todoRepository,times(1)).save(todoSPetrom);
+        verify(todoRepository,times(2)).save(any());
 
 
     }
@@ -184,16 +192,44 @@ class TodoServiceTest {
                 (this.todoRepository.findAllByIsDone(true)). // zavolam metodu najdi todo podla statusu, ktory je  true
                 thenReturn(doneTodos2); //tak potom vrat list doneTodos2
 
+
+
         // Act
         List<Todo> result = todoService.getAllByStatus(true);
+
+
+        // Assert
+        verify(this.todoRepository, times(1)).findAllByIsDone(true);
+        verify(this.todoRepository, never()).findAllByIsDone(false);
+        verify(this.todoRepository, never()).getReferenceById(anyLong());
+        verify(this.todoRepository, never()).delete(any());
+        verify(this.todoRepository, never()).deleteAll(any());
+        assertEquals(doneTodos2, result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(doneTodo1));
+        assertTrue(result.contains(doneTodo2));
+        assertFalse(result.contains(notDoneTodo));
+        assertFalse(result.contains(notDoneTodo));
+    }
+
+    @Test
+    void testGetAllNotDoneTodos() {
+        List<Todo> doneTodos2 = new java.util.ArrayList<>(todoRepository2.stream().filter(t -> !t.getIsDone()).toList());
+
+        when // ked
+                (this.todoRepository.findAllByIsDone(false)). // zavolam metodu najdi todo podla statusu, ktory je  true
+                thenReturn(doneTodos2); //tak potom vrat list doneTodos2
+
+        // Act
+        List<Todo> result = todoService.getAllByStatus(false);
 
 
         // Assert
         verify(this.todoRepository, times(1)).findAllByIsDone(anyBoolean());
         assertEquals(doneTodos2, result);
         assertEquals(2, result.size());
-        assertTrue(result.contains(doneTodo1));
-        assertTrue(result.contains(doneTodo2));
-        assertFalse(result.contains(notDoneTodo));
+        assertTrue(result.contains(notDoneTodo));
+        assertTrue(result.contains(pokazene));
     }
+
 }

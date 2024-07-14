@@ -61,7 +61,7 @@ public class DateService {
             throw new RuntimeException("To uz je moc velke");
         }else if (a == 0 ||
                 b == 0){
-            throw new NullPointerException("Zadaj obe cisla");
+            throw new NullPointerException("Zadaj obe cisla kladne");
         }
         return (a+b) * -1;
     }

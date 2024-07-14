@@ -31,11 +31,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void changeUserRole(Long userId, String newRole) {
+    public User changeUserRole(Long userId, String newRole) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setRole(newRole);
-        userRepository.save(user);
+       return userRepository.save(user);
     }
+
     public String getLoggedInUserRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
